@@ -17,7 +17,6 @@ function App() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [showContinueModal, setShowContinueModal] = useState(false);
 
-
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -48,19 +47,20 @@ function App() {
     if (type === 'non-veg') setNonVegActive(prev => !prev);
   };
 
-  // Flatten all dishes for global search
-  const allDishes = Object.values(mockDishes).flat();
-
-  // Determine dishes to display
-  const dishesToDisplay = searchTerm
-    ? filterDishes(allDishes, searchTerm, vegActive, nonVegActive)
-    : filterDishes(mockDishes[selectedCategory], '', vegActive, nonVegActive);
+  // Determine dishes to display (search only within selected category)
+  const dishesToDisplay = filterDishes(
+    mockDishes[selectedCategory],
+    searchTerm,
+    vegActive,
+    nonVegActive
+  );
 
   // Count selected dishes in each category
   const countInCategory = (category) =>
     mockDishes[category].filter(dish => selectedDishes.includes(dish.id)).length;
 
   const totalSelected = selectedDishes.length;
+  const selectedInCategory = countInCategory(selectedCategory);
 
   return (
     <div className="App">
@@ -124,6 +124,9 @@ function App() {
       {/* ===================== Fixed Footer ===================== */}
       <div className="fixed-footer">
         <p>Total Selected Dishes: {totalSelected}</p>
+        <p>
+        Selected in {selectedCategory}: {selectedInCategory}
+      </p>
         <button onClick={() => setShowContinueModal(true)}>Continue</button>
       </div>
 
@@ -135,25 +138,25 @@ function App() {
         />
       )}
 
-{showDescription && (
-  <DescriptionModal
-    dish={showDescription}
-    onClose={() => setShowDescription(null)}
-    onSelect={handleSelect}
-    isSelected={selectedDishes.includes(showDescription.id)}
-    onShowIngredients={setShowIngredient}
-  />
-)}
-{showContinueModal && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <h3>Thank you!</h3>
-      <p>Our operator will contact you shortly.</p>
-      <button className="close-btn" onClick={() => setShowContinueModal(false)}>Close</button>
-    </div>
-  </div>
-)}
+      {showDescription && (
+        <DescriptionModal
+          dish={showDescription}
+          onClose={() => setShowDescription(null)}
+          onSelect={handleSelect}
+          isSelected={selectedDishes.includes(showDescription.id)}
+          onShowIngredients={setShowIngredient}
+        />
+      )}
 
+      {showContinueModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Thank you!</h3>
+            <p>Our operator will contact you shortly.</p>
+            <button className="close-btn" onClick={() => setShowContinueModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
