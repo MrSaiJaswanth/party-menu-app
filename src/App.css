@@ -1,38 +1,423 @@
+/* ===================== Global Reset ===================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===================== General Styles ===================== */
 .App {
+  font-family: Arial, sans-serif;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  color: #333;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #f9f9f9;
+}
+
+/* ===================== Fixed Header ===================== */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 999;
+  padding: 6px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.header-top h1 {
+  font-size: 1.3rem;
+  color: #28a745;
+  font-weight: 700;
+}
+
+.header-top .search-bar {
+  flex: 1 1 auto;
+  max-width: 200px;
+  min-width: 100px;
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.header-top .search-bar:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 5px rgba(40,167,69,0.5);
+}
+
+.header-toggles {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.filter-item span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Toggle Switch Styling */
+.toggle-switch {
+  width: 36px;
+  height: 18px;
+  background-color: #ccc;
+  border-radius: 20px;
+  position: relative;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.toggle-switch.active {
+  background-color: #28a745;
+}
+
+.toggle-switch .slider {
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: left 0.3s;
+}
+
+.toggle-switch.active .slider {
+  left: 19px;
+}
+
+.header-bottom {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  gap: 4px;
+}
+
+.header-bottom::-webkit-scrollbar {
+  height: 6px;
+}
+
+.header-bottom::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.tabs button {
+  background-color: #f1f1f1;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex: 0 0 auto;
+}
+
+.tabs button.active {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.4);
+}
+
+/* ===================== Content Wrapper ===================== */
+.content-wrapper {
+  padding: 80px 10px 70px; /* top = header, bottom = footer */
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+/* ===================== Dish List ===================== */
+.dish-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  justify-items: center;
+}
+
+/* ===================== Dish Card ===================== */
+.dish-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+  width: 100%;
+}
+
+.dish-card.selected {
+  border-color: #28a745;
+  transform: scale(1.03);
+}
+
+.dish-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dish-card h3 {
+  margin: 8px 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.dish-card p {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0;
+}
+
+.read-more {
+  color: #28a745;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 5px;
+  font-size: 0.85rem;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.card-actions button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.ingredient-btn {
+  background-color: #28a745;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* ===================== Fixed Footer ===================== */
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #28a745;
+  color: white;
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+  z-index: 999;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.fixed-footer p {
+  font-weight: 600;
+  margin: 0;
+  font-size: 0.9rem;
+  flex: 1 1 auto;
+}
+
+.fixed-footer button {
+  flex: 0 1 auto;
+  padding: 8px 16px;
+  background-color: #fff;
+  color: #28a745;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fixed-footer button:hover {
+  background-color: #e6e6e6;
+}
+
+/* ===================== Modals ===================== */
+
+/* General Modal Overlay & Content */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  width: 350px;
+  max-width: 90%;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+  text-align: left;
+}
+
+/* Close Button */
+.close-btn {
+  padding: 8px 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  background-color: #007bff;
+}
+
+.close-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Modal Dish Image */
+.modal-dish-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Ingredient list inside modal */
+.ingredient-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.ingredient-list li {
+  display: flex;
+  justify-content: space-between; /* name left, quantity right */
+  margin-bottom: 6px;
+  line-height: 1.5;   /* clear spacing between lines */
+  font-size: 0.9rem;
+}
+
+.ingredient-name {
+  font-weight: 500;
+}
+
+.ingredient-qty {
+  color: #555;
+  font-style: italic;
+}
+
+/* ===================== Add / Remove / Ingredient Buttons ===================== */
+.add-btn, .remove-btn, .ingredient-btn {
+  padding: 8px 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+}
+
+.add-btn {
+  background-color: #28a745;
+}
+
+.remove-btn {
+  background-color: #dc3545;
+}
+
+.add-btn:hover {
+  background-color: #218838;
+}
+
+.remove-btn:hover {
+  background-color: #c82333;
+}
+
+.ingredient-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 768px) {
+  .dish-list {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .dish-card img {
+    height: 100px;
+  }
+
+  .header-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-top .search-bar {
+    max-width: 100%;
+  }
+
+  .fixed-footer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .fixed-footer button {
+    width: 100%;
   }
 }
