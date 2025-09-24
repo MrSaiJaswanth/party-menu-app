@@ -6,7 +6,7 @@ function IngredientModal({ dish, onClose }) {
   return (
     <div
       className="modal-overlay"
-      onClick={onClose} // clicking on overlay closes modal
+       // clicking on overlay closes modal
     >
       <div
         className="modal-content"
